@@ -1,20 +1,35 @@
 import{ useState } from "react";
+import useEmailSignup from "../../../../hooks/useEmailSignup";
+import useGoogleAuth from "../../../../hooks/useGoogleAuth";
 
 function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [signupEmail,loadingEmail,errorEmail] = useEmailSignup();
+  const [signupGoogle,loadingGoogle,errorGoogle] = useGoogleAuth()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle signup logic here
-    console.log("Name:", name, "Email:", email, "Password:", password);
+    const user = await signupEmail(email,password);
+    console.log('succesfully created: ',user);
   };
+
+  const handleGoogleSignup = async (e)=>{
+    e.preventDefault();
+    const user = await signupGoogle();
+    console.log('succesfully created: ',user);
+  }
+
+  const loading = loadingEmail || loadingGoogle
+  const error = errorEmail || errorGoogle;
+  
 
   return (
     <div style={{ maxWidth: 400, margin: "2rem auto", padding: 24, border: "1px solid #ccc", borderRadius: 8 }}>
       <h2>Sign Up</h2>
-      <p>Please enter your name, email, and password to create an account.</p>
+      <h3><button onClick={handleGoogleSignup}> Signup with Google</button></h3>
+      <p>Or else use email and password to create an account.</p>
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: 16 }}>
           <label htmlFor="name" style={{ display: "block", marginBottom: 4 }}>Name</label>
@@ -49,7 +64,8 @@ function Signup() {
             style={{ width: "100%", padding: 8, boxSizing: "border-box" }}
           />
         </div>
-        <button type="submit" style={{ width: "100%", padding: 10 }}>Sign Up</button>
+        <button type="submit" disabled={loading} style={{ width: "100%", padding: 10 }}>{loading?'...':'Sign Up'}</button>
+        {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
       </form>
     </div>
   );
