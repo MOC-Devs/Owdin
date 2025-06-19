@@ -1,13 +1,20 @@
 import{ useState } from "react";
 import useEmailSignup from "../../../../hooks/useEmailSignup";
 import useGoogleAuth from "../../../../hooks/useGoogleAuth";
+import { useSelector } from "react-redux";
+import { selectAuthError, selectAuthLoading, selectAuthUser } from "../../../../features/auth/authSelectors";
+
 
 function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [signupEmail,loadingEmail,errorEmail] = useEmailSignup();
-  const [signupGoogle,loadingGoogle,errorGoogle] = useGoogleAuth()
+  const [signupEmail] = useEmailSignup();
+  const [signupGoogle] = useGoogleAuth()
+
+  const loading = useSelector(selectAuthLoading);
+  const error = useSelector(selectAuthError);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,14 +28,10 @@ function Signup() {
     console.log('succesfully created: ',user);
   }
 
-  const loading = loadingEmail || loadingGoogle
-  const error = errorEmail || errorGoogle;
-  
-
   return (
     <div style={{ maxWidth: 400, margin: "2rem auto", padding: 24, border: "1px solid #ccc", borderRadius: 8 }}>
       <h2>Sign Up</h2>
-      <h3><button onClick={handleGoogleSignup}> Signup with Google</button></h3>
+      <h3><button onClick={handleGoogleSignup}> Sign Up with Google</button></h3>
       <p>Or else use email and password to create an account.</p>
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: 16 }}>

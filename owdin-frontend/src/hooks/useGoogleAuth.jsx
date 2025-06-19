@@ -1,26 +1,23 @@
-import { useState } from 'react';
-import { auth } from '../../firebase-config';
-import { signInWithPopup,GoogleAuthProvider } from 'firebase/auth';
+import { useDispatch } from 'react-redux';
+import { signInWithGoogle } from '../features/auth/authApi';
+import { loginFailure, loginStart, loginSuccess } from '../features/auth/authSlice';
 
 const useGoogleAuth = () => {
-  const [loading,setLoading] = useState(false);
-  const [error,setError] = useState(null)
-  const provider = new GoogleAuthProvider()
+  const dispatch = useDispatch()
 
-  const signup = async()=>{
-    setLoading(true);
-    try{
-      const userCredential = await signInWithPopup(auth,provider);
-      setLoading(false);
-      return userCredential;
-    }catch(err){
-      setError(err.message);
-      setLoading(false);
-      return null;
+  const signup = async () => {
+    try {
+      dispatch(loginStart())
+      const userCredential = await signInWithGoogle();
+      const user = {uid: userCredential.user.uid,email: userCredential.user.email}
+      dispatch(loginSuccess(user))
+      return user;
+    } catch (err) {
+      dispatch(loginFailure(err.message));
     }
   };
-  
-  return [signup,loading,error];
+
+  return [signup];
 }
 
 export default useGoogleAuth;

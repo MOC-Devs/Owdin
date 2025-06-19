@@ -1,25 +1,23 @@
-import { useState } from 'react';
-import { auth } from '../../firebase-config';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { useDispatch } from 'react-redux';
+import { signUpWithEmailPassword } from '../features/auth/authApi';
+import { loginFailure, loginStart, loginSuccess } from '../features/auth/authSlice';
 
 const useEmailSignup = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null)
+  const dispatch = useDispatch()
 
   const signup = async (email, password) => {
-    setLoading(true);
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      setLoading(false);
-      return userCredential;
+      dispatch(loginStart())
+      const userCredential = await signUpWithEmailPassword(email, password);
+      const user = {uid: userCredential.user.uid,email: userCredential.user.email}
+      dispatch(loginSuccess(user))
+      return user;
     } catch (err) {
-      setError(err.message);
-      setLoading(false);
-      return null;
+      dispatch(loginFailure(err.message));
     }
   };
 
-  return [signup, loading, error];
+  return [signup];
 }
 
 export default useEmailSignup;

@@ -1,30 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useEmailSignin from "../../../../hooks/useEmailSignin";
 import useGoogleAuth from "../../../../hooks/useGoogleAuth";
+import { useSelector } from "react-redux";
+import { selectAuthError, selectAuthLoading, selectAuthUser } from "../../../../features/auth/authSelectors";
 
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [signinEmail,loadingEmail,errorEmail] = useEmailSignin();
-  const [signinGoogle,loadingGoogle,errorGoogle] = useGoogleAuth()
 
-  const handleSubmit = async(e) => {
+  const [signinEmail] = useEmailSignin();
+  const [signinGoogle] = useGoogleAuth();
+
+  const loading = useSelector(selectAuthLoading);
+  const error = useSelector(selectAuthError);
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = await signinEmail(email,password);
-    console.log('succesfully logged: ',user);
+    const user = await signinEmail(email, password);
+    console.log('succesfully logged: ', user);
   };
-  const handleGoogleSignin = async (e)=>{
+  const handleGoogleSignin = async (e) => {
     e.preventDefault();
     const user = await signinGoogle();
-    console.log('succesfully logged: ',user);
+    console.log('succesfully logged: ', user);
   }
-  const loading = loadingEmail || loadingGoogle
-  const error = errorEmail || errorGoogle;
 
   return (
     <div style={{ maxWidth: 400, margin: "2rem auto", padding: 24, border: "1px solid #ccc", borderRadius: 8 }}>
       <h2>Sign In</h2>
-      <h3><button onClick={handleGoogleSignin}> Signin with Google</button></h3>
+      <h3><button onClick={handleGoogleSignin}> Sign In with Google</button></h3>
       <p>Or else enter your email and password to sign in.</p>
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: 16 }}>
@@ -49,7 +54,7 @@ function SignIn() {
             style={{ width: "100%", padding: 8, boxSizing: "border-box" }}
           />
         </div>
-        <button type="submit" disabled={loading} style={{ width: "100%", padding: 10 }}>{loading?'...':'Sign In'}</button>
+        <button type="submit" disabled={loading} style={{ width: "100%", padding: 10 }}>{loading ? '...' : 'Sign In'}</button>
         {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
       </form>
     </div>
