@@ -1,6 +1,6 @@
 import { Navigate, Route, BrowserRouter as Router,Routes, useNavigate} from "react-router-dom"
 import Auth from "./components/Auth"
-import Home from "./components/Home"
+import Home from "./components/Pages/Home"
 import { useSelector } from "react-redux"
 import { selectIsAuthenticated } from "./features/auth/authSelectors"
 
@@ -15,6 +15,7 @@ function App() {
         <Route path='/auth' element={userAuthenticated?<Navigate to="/"/>:<Auth/>}/>
       </Routes>
     </Router>
+    
     </>      
   )
 }
