@@ -1,6 +1,8 @@
 import Navbar from "../../Navbar"
 import BalanceBar from "../../BalanceBar"
 import ExpenseFeed from "../../ExpenseFeed"
+import AddExpenseModal from "../../ExpenseCreate/AddExpenseModal"
+import ExpenseCreate from "../../ExpenseCreate"
 
 const Home = () => {
 
@@ -9,6 +11,7 @@ const Home = () => {
       <Navbar/>
       <BalanceBar/>
       <ExpenseFeed/>
+      <ExpenseCreate/>
     </>
   )
 }

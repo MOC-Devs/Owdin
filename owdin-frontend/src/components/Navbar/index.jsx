@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import useLogout from '../../hooks/useLogout'
-import { selectAuthUser } from '../../features/auth/authSelectors'
+import { selectAuthUser } from '../../features/auth/selectors'
 import { useSelector } from 'react-redux'
 
 const Navbar = () => {
@@ -9,7 +9,6 @@ const Navbar = () => {
 
     const handleSignout = async () => {
         await signout();
-        console.log('Logged Out: ', user)
     }
     return (
         <nav className="bg-white shadow-md px-6 py-3 flex items-center justify-between">

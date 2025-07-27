@@ -1,8 +1,11 @@
-import { balanceInAnExpense } from "../../../app/utils"
-
-const userId = 'user_001'
+import { useSelector } from "react-redux";
+import { balanceInAnExpense, convertToIntlDate } from "../../../app/utils"
+import { selectAuthUser } from "../../../features/auth/selectors";
+import { selectAllUsers } from "../../../features/expense/selector";
 
 const ExpenseCard = ({ expense }) => {
+    const users = useSelector(selectAllUsers)
+    const {uid: userId} = useSelector(selectAuthUser)
     const balance = balanceInAnExpense(expense,userId);
     return (
         <div
@@ -11,13 +14,13 @@ const ExpenseCard = ({ expense }) => {
         >
             <div>
                 <div className="text-gray-800 font-semibold">
-                    User {expense.lenderId} paid ₹{expense.amount}
+                    User {users[expense.lenderId]} paid ₹{expense.amount}
                 </div>
                 <div className="text-sm text-gray-500">
-                    Split with: {expense.lendees.map(l => l.userId).join(', ')}
+                    Split with: {expense.lendees.map(l => users[l.userId]).join(', ')}
                 </div>
                 <div className="text-xs text-gray-400 mt-2">
-                    {new Date(expense.timestamp).toLocaleString()}
+                    {convertToIntlDate(expense.createdAt)}
                 </div>
             </div>
             <div className="flex flex-col justify-center">

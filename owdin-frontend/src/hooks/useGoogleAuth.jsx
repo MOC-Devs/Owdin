@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
-import { signInWithGoogle } from '../features/auth/authApi';
-import { loginFailure, loginStart, loginSuccess } from '../features/auth/authSlice';
+import { signInWithGoogle } from '../features/auth/api';
+import { loginFailure, loginStart, loginSuccess } from '../features/auth';
+import { fetchExpensesRequest } from '../features/expense';
 
 const useGoogleAuth = () => {
   const dispatch = useDispatch()

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import useEmailSignin from "../../../../hooks/useEmailSignin";
 import useGoogleAuth from "../../../../hooks/useGoogleAuth";
 import { useSelector } from "react-redux";
-import { selectAuthError, selectAuthLoading, selectAuthUser } from "../../../../features/auth/authSelectors";
+import { selectAuthError, selectAuthLoading} from "../../../../features/auth/selectors";
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -18,12 +18,10 @@ function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const user = await signinEmail(email, password);
-    console.log('succesfully logged: ', user);
   };
   const handleGoogleSignin = async (e) => {
     e.preventDefault();
     const user = await signinGoogle();
-    console.log('succesfully logged: ', user);
   }
 
   return (

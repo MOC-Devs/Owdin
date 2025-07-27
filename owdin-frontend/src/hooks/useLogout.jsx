@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
-import { logoutUser } from '../features/auth/authApi'
-import { logout,loginFailure } from '../features/auth/authSlice'
+import { logoutUser } from '../features/auth/api'
+import { logout,loginFailure } from '../features/auth/index'
 
 const useLogout = () => {
     const dispatch = useDispatch()

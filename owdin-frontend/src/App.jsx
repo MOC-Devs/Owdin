@@ -1,11 +1,28 @@
 import { Navigate, Route, BrowserRouter as Router,Routes, useNavigate} from "react-router-dom"
 import Auth from "./components/Auth"
 import Home from "./components/Pages/Home"
-import { useSelector } from "react-redux"
-import { selectIsAuthenticated } from "./features/auth/authSelectors"
+import { useDispatch, useSelector } from "react-redux"
+import { selectIsAuthenticated } from "./features/auth/selectors"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
+import { useEffect } from "react"
+import { fetchAllUsersRequest, fetchExpensesRequest } from "./features/expense"
+import { logout } from "./features/auth"
 
 function App() {
   const userAuthenticated = useSelector(selectIsAuthenticated)
+  const dispatch = useDispatch()
+
+  useEffect(()=>{
+    const unsubscribe = onAuthStateChanged(
+      getAuth(),
+      (user) => {
+        if(user){
+          dispatch(fetchExpensesRequest())
+          dispatch(fetchAllUsersRequest())
+        }
+      }
+    );
+  })
 
   return (
     <>
@@ -15,7 +32,6 @@ function App() {
         <Route path='/auth' element={userAuthenticated?<Navigate to="/"/>:<Auth/>}/>
       </Routes>
     </Router>
-    
     </>      
   )
 }

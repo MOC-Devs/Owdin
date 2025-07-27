@@ -2,7 +2,7 @@ import{ useState } from "react";
 import useEmailSignup from "../../../../hooks/useEmailSignup";
 import useGoogleAuth from "../../../../hooks/useGoogleAuth";
 import { useSelector } from "react-redux";
-import { selectAuthError, selectAuthLoading, selectAuthUser } from "../../../../features/auth/authSelectors";
+import { selectAuthError, selectAuthLoading, selectAuthUser } from "../../../../features/auth/selectors";
 
 
 function Signup() {
@@ -18,14 +18,12 @@ function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = await signupEmail(email,password);
-    console.log('succesfully created: ',user);
+    const user = await signupEmail(name,email,password);
   };
 
   const handleGoogleSignup = async (e)=>{
     e.preventDefault();
     const user = await signupGoogle();
-    console.log('succesfully created: ',user);
   }
 
   return (
