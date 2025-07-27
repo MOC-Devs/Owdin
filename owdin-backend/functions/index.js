@@ -22,4 +22,4 @@ app.use("/users",userRoutes)
 
 initializeApp();
 
-exports.webApp = onRequest(app)
+exports.owdin = onRequest(app)
