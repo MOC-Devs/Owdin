@@ -5,8 +5,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { selectIsAuthenticated } from "./features/auth/selectors"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { useEffect } from "react"
-import { fetchAllUsersRequest, fetchExpensesRequest } from "./features/expense"
-import { logout } from "./features/auth"
+import { fetchExpensesRequest } from "./features/expense"
+import { fetchAllUsersRequest } from "./features/auth"
+
 
 function App() {
   const userAuthenticated = useSelector(selectIsAuthenticated)

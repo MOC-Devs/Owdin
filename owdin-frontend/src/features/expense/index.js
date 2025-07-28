@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   expenses: [],
-  users: {},
   loading: null,
   error: null,
 };
@@ -20,10 +19,6 @@ const expenseSlice = createSlice({
       state.expenses = action.payload;
       state.loading = false;
     },
-    fetchExpensesFailure(state, action) {
-      state.loading = false;
-      state.error = action.payload;
-    },
     // ADD expense
     createExpenseRequest(state, action) {
       state.loading = true;
@@ -32,20 +27,7 @@ const expenseSlice = createSlice({
     createExpenseSuccess(state, action) {
       state.loading = false;
     },
-    createExpenseFailure(state, action) {
-      state.loading = false;
-      state.error = action.payload;
-    },
-    // GET ALL USERS TO SHOW IN EXPENSE LIST
-    fetchAllUsersRequest(state,action){
-        state.loading = true;
-        state.error = null;
-    },
-    fetchAllUsersSuccess(state, action) {
-      state.users = action.payload;
-      state.loading = false;
-    },
-    fetchAllUsersFailure(state, action) {
+    expenseApiFailure(state, action) {
       state.loading = false;
       state.error = action.payload;
     },
@@ -55,13 +37,9 @@ const expenseSlice = createSlice({
 export const {
   fetchExpensesRequest,
   fetchExpensesSuccess,
-  fetchExpensesFailure,
   createExpenseRequest,
   createExpenseSuccess,
-  createExpenseFailure,
-  fetchAllUsersRequest,
-  fetchAllUsersSuccess,
-  fetchAllUsersFailure
+  expenseApiFailure
 } = expenseSlice.actions;
 
 export default expenseSlice.reducer;

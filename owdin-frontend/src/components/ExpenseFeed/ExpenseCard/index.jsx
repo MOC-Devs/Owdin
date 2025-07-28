@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import { balanceInAnExpense, convertToIntlDate } from "../../../app/utils"
-import { selectAuthUser } from "../../../features/auth/selectors";
-import { selectAllUsers } from "../../../features/expense/selector";
+import { selectAllUsers, selectAuthUser } from "../../../features/auth/selectors";
 
 const ExpenseCard = ({ expense }) => {
     const users = useSelector(selectAllUsers)

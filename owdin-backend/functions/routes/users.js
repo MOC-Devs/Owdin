@@ -11,6 +11,7 @@ router.get("/getAllUsers", async (req, res) => {
     );
     return res.status(200).json(users);
   } catch (err) {
+    console.error("Error getting all users:", err);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
@@ -33,13 +34,14 @@ router.get("/getUserById", async (req, res) => {
     const userData = userDoc.data();
     return res.status(200).json({ userData });
   } catch (err) {
+    console.error("Error getting user by id:", err);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 router.post("/createUser", async (req, res) => {
   const { name, email } = req.body;
-  const { userId } = req.user.uid;
+  const userId = req.user.uid;
   if (!name || !email) {
     return res.status(400).json({ error: "One or more fields is missing in request" });
   }
@@ -65,6 +67,7 @@ router.post("/createUser", async (req, res) => {
       return res.status(200).json({ result: "User created" });
     }
   } catch (err) {
+    console.error("Error creating user:", err);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });

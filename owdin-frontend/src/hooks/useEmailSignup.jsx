@@ -1,24 +1,20 @@
-import { useDispatch } from 'react-redux';
-import { signUpWithEmailPassword } from '../features/auth/api';
-import { loginFailure, loginStart, loginSuccess } from '../features/auth';
-import { fetchExpensesRequest } from '../features/expense';
+import { useDispatch } from "react-redux";
+import { signupStart } from "../features/auth";
+import { EMAIL_AUTH } from "../features/auth/constants";
 
 const useEmailSignup = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const signup = async (name, email, password) => {
-    try {
-      dispatch(loginStart())
-      const userCredential = await signUpWithEmailPassword(name, email, password);
-      const user = {uid: userCredential.user.uid,email: userCredential.user.email}
-      dispatch(loginSuccess(user))
-      return user;
-    } catch (err) {
-      dispatch(loginFailure(err.message));
-    }
+    dispatch(
+      signupStart({
+        providerType: EMAIL_AUTH,
+        credentials: { name, email, password },
+      })
+    );
   };
 
   return [signup];
-}
+};
 
 export default useEmailSignup;

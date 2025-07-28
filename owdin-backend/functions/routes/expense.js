@@ -11,6 +11,7 @@ router.get("/getExpense", async (req, res) => {
     const expenses = expensesSnapshot.docs.map((doc) => doc.data());
     return res.status(200).json(expenses);
   } catch (err) {
+    console.error("Error getting expenses:", err);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
@@ -19,9 +20,7 @@ router.post("/createExpense", async (req, res) => {
   const { amount, description, split } = req.body;
   const userId = req.user.uid;
   if (!amount || !split) {
-    return res
-      .status(400)
-      .json({ error: "One or more fields is missing in request" });
+    return res.status(400).json({ error: "One or more fields is missing in request" });
   }
 
   try {
@@ -57,6 +56,7 @@ router.post("/createExpense", async (req, res) => {
       return res.status(200).json({ result: "Expense Created" });
     }
   } catch (err) {
+    console.error("Error creating expense:", err);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });

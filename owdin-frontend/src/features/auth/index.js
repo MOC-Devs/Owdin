@@ -6,6 +6,7 @@ const getUserFromLocalStorage = () => {
 };
 const initialState = {
   user: getUserFromLocalStorage(),
+  users: {},
   loading: null,
   error: null,
 };
@@ -14,6 +15,10 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    signupStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
     loginStart: (state) => {
       state.loading = true;
       state.error = null;
@@ -23,17 +28,42 @@ const authSlice = createSlice({
       state.user = action.payload;
       state.loading = false;
     },
-    loginFailure: (state, action) => {
-      state.error = action.payload;
+    // GET ALL USERS TO SHOW IN EXPENSE LIST
+    fetchAllUsersRequest(state, action) {
+      state.loading = true;
+      state.error = null;
+    },
+    fetchAllUsersSuccess(state, action) {
+      state.users = action.payload;
       state.loading = false;
     },
-    logout: (state) => {
+    // LOGOUT USER
+    logoutRequest: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    logoutSuccess: (state) => {
+      state.loading = false;
       localStorage.removeItem("user");
       state.user = null;
+    },
+    // IN CASE OF API FAILURE
+    userApiFailure: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
     },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout } =
-  authSlice.actions;
+export const {
+  signupStart,
+  loginStart,
+  loginSuccess,
+  fetchAllUsersRequest,
+  fetchAllUsersSuccess,
+  logoutRequest,
+  logoutSuccess,
+  userApiFailure,
+} = authSlice.actions;
+
 export default authSlice.reducer;

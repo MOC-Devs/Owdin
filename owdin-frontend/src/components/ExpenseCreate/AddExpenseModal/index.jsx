@@ -2,8 +2,8 @@ import { useState } from "react";
 import SelectSearch from "./SelectSearch";
 import { useDispatch, useSelector } from "react-redux";
 import { createExpenseRequest } from "../../../features/expense";
-import { selectAllUsers } from "../../../features/expense/selector";
 import { validateExpense } from "../../../app/utils";
+import { selectAllUsers } from "../../../features/auth/selectors";
 
 
 const AddExpenseModal = ({closeModal}) => {
