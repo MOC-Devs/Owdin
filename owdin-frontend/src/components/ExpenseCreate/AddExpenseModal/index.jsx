@@ -52,7 +52,7 @@ const AddExpenseModal = ({closeModal}) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white p-6 rounded-xl shadow-lg max-w-md mx-auto space-y-4"
+      className="bg-white p-6 rounded-xl shadow-md max-w-md mx-auto space-y-4"
     >
       <h2 className="text-xl font-semibold text-gray-700">Add New Expense</h2>
 
