@@ -12,8 +12,11 @@ const ExpenseCard = ({ expense }) => {
             className="bg-white shadow-md p-4 rounded-lg flex justify-between"
         >
             <div>
-                <div className="text-gray-800 font-semibold">
-                    User {users[expense.lenderId]} paid ₹{expense.amount}
+                <div className="text-gray-800 font-semibold mb-2">
+                    {users[expense.lenderId]} paid ₹{expense.amount}
+                </div>
+                <div className="text-sm text-gray-500">
+                    Description: {expense.description}
                 </div>
                 <div className="text-sm text-gray-500">
                     Split with: {expense.lendees.map(l => users[l.userId]).join(', ')}
