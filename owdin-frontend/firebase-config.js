@@ -2,11 +2,7 @@
 import { initializeApp } from "firebase/app";
 import {getAuth,connectAuthEmulator} from "firebase/auth";
 import { getFirestore,connectFirestoreEmulator } from "firebase/firestore";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyCR1Cw7V6ZThlz7Cl9-TH_mTOt5Aw2neMo",
   authDomain: "owdin-moc-devs.firebaseapp.com",
@@ -22,11 +18,12 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Only connect emulator locally
-if (window.location.hostname === "localhost") {
+// Only connect emulators locally
+const env = import.meta.env.VITE_ENV
+
+if (env=="LOCAL" && window.location.hostname === "localhost") {
   connectAuthEmulator(auth, "http://localhost:9099");
   connectFirestoreEmulator(db,"http://localhost:8080")
 }
-
 
 export { app, auth, db };
